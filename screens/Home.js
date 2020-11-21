@@ -1,19 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View ,Image, FlatList} from 'react-native';
 import {Card, FAB} from 'react-native-paper'
-
-const Home=()=>{
+//import {NavigationContainer} from 'react-navigation/native'
+import {createStackNavigator} from '@react-navigation/stack'
+const Home= (props)=>{
     const data = [
         {id:1, name :"a", position:"Frontend dev"},
         {id:2, name :"b", position:"Python dev"},
         {id:3, name :"c", position:"Java dev"},
         {id:4, name :"d", position:"Backend dev"},
-        {id:5, name :"d", position:"Backend dev"},
-        {id:6, name :"d", position:"Backend dev"},
-        {id:7, name :"d", position:"Backend dev"},
-        {id:8, name :"d", position:"Backend dev"},
-        {id:9, name :"d", position:"Backend dev"},
-        {id:10, name :"d", position:"Backend dev"},
+
     ]
     const renderList = ((item)=>{
         return(
@@ -35,7 +31,7 @@ const Home=()=>{
     })
     return (
         
-        <View >
+        <View style={{flex:1}}>
             <FlatList
             data = {data}
             renderItem={({item})=>{
@@ -44,12 +40,13 @@ const Home=()=>{
               }}
               keyExtractor = {item => `${item.id}`}
             />
-            <FAB
+            <FAB  
+                onPress ={()=> props.navigation.navigate("Create")}
                 style = {styles.fab}
                 small = {false}
                 icon = "plus"
                 theme = {{colors:{accent:"#FB98AD",primary :"#0C0C0C"}}}
-                onPress = {() => console.log('Pressed')}
+                
             />
         {/* { renderList} */}
         </View>
