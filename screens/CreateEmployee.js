@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View ,Image, Modal} from 'react-native';
+import { StyleSheet, Text, View ,Image, Modal,Alert} from 'react-native';
 import {Card, FAB, TextInput,Button} from 'react-native-paper'
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
 
 const CreateEmployee = () =>{
     const [name,setName] = useState("")
@@ -11,6 +13,68 @@ const CreateEmployee = () =>{
     const [picture,setPicture] = useState("")
     const [modal,setModal] = useState(false)
 
+    const pickFromGallery = async ()=>{
+        const {granted} =  await Permissions.askAsync(Permissions.CAMERA_ROLL)
+        if(granted){
+             let data =  await ImagePicker.launchImageLibraryAsync({
+                  mediaTypes:ImagePicker.MediaTypeOptions.Images,
+                  allowsEditing:true,
+                  aspect:[1,1],
+                  quality:0.5
+              })
+              if(!data.cancelled){
+                  let newfile = { 
+                    uri:data.uri,
+                    type:`test/${data.uri.split(".")[1]}`,
+                    name:`test.${data.uri.split(".")[1]}` 
+                }
+                  handleUpload(newfile)
+              }
+        }else{
+           Alert.alert("Permission is needed to upload ur photos")
+        }
+     }
+     const pickFromCamera = async ()=>{
+        const {granted} =  await Permissions.askAsync(Permissions.CAMERA)
+        if(granted){
+             let data =  await ImagePicker.launchCameraAsync({
+                  mediaTypes:ImagePicker.MediaTypeOptions.Images,
+                  allowsEditing:true,
+                  aspect:[1,1],
+                  quality:0.5
+              })
+            if(!data.cancelled){
+                let newfile = { 
+                  uri:data.uri,
+                  type:`test/${data.uri.split(".")[1]}`,
+                  name:`test.${data.uri.split(".")[1]}` 
+  
+              }
+                handleUpload(newfile)
+            }
+            console.log(data)
+        }else{
+           Alert.alert("Permission is needed to upload ur photos")
+        }
+     }
+     const handleUpload = (image)=>{
+        const data = new FormData()
+        data.append('file',image)
+        data.append('upload_preset','employeeApp')
+        data.append("cloud_name","dvqqs4tl5")
+        //https://cloudinary.com/ image cloud
+        fetch("https://api.cloudinary.com/v1_1/dvqqs4tl5/image/upload",{
+            method:"post",
+            body:data
+        }).then(res=>res.json()).
+        then(data=>{
+            setPicture(data.url)
+            setModal(false)
+        }).catch(err=>{
+            Alert.alert("error while uploading")
+        })
+   }
+//https://res.cloudinary.com/dvqqs4tl5/image/upload/v1606080786/qtgwa9snxxoffqpc4w8j.png
     return(
         <View style= {styles.root}>
             <TextInput
@@ -72,10 +136,10 @@ const CreateEmployee = () =>{
             >
             <View style = {styles.modalView}>
                 <View  style = {styles.modalButtonView} >
-                    <Button icon="camera" mode="contained" onPress={() => console.log("camera")} theme={theme}>
+                    <Button icon="camera" mode="contained" onPress={() => pickFromCamera()} theme={theme}>
                     Camera
                     </Button>
-                    <Button icon="image-area" mode="contained" onPress={() => console.log("gallary")} theme={theme}>
+                    <Button icon="image-area" mode="contained" onPress={() =>  pickFromGallery()} theme={theme}>
                     Gallary
                     </Button>
                 </View>

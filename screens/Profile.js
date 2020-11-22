@@ -3,10 +3,15 @@ import { StyleSheet, Text, View ,Image, Modal,Linking,Platform,Alert} from 'reac
 import {Card, FAB, TextInput,Button, Title} from 'react-native-paper'
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 
-const Profile = () => {
 
+const Profile = (props) => {
+
+    const {id,name,picture,phone,salary,email,position} = props.route.params.item
+    
     const openDial=()=>{
         if(Platform.OS === "android"){
            Linking.openURL(`tel:12345`)
@@ -24,19 +29,23 @@ const Profile = () => {
             <View style = {{alignItems:"center"}}>
                 <Image
                     style= {{width:100,height :100,borderRadius:50,marginTop :-50}}
-                    source = {{uri:"https://images.unsplash.com/photo-1597223557154-721c1cecc4b0?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjN8fHBlcnNvbnxlbnwwfDJ8MHw%3D&auto=format&fit=crop&w=700&q=60"}}
+                    source = {{uri:picture}}
                 />
             </View>
             <View style ={{alignItems:"center",margin:7}}> 
-                <Title>Amy Smith</Title>
-                <Text style = {{fontSize:18}}>web developer</Text>
+                <Title>{name }</Title>
+                <Text style = {{fontSize:18}}>
+                    {position}
+                </Text>
             </View>
             <Card style={styles.mycard} onPress={()=>{
              Linking.openURL(`mailto:hey@gmail.com`)
          }}>
                 <View style = {styles.cardContent}>
                 <MaterialIcons name="email" size={30} color="#FB98AD" />
-                <Text style = {styles.mytext}>1234amy@gmail.com</Text>
+                <Text style = {styles.mytext}>
+                    {email}
+                </Text>
                 
                 </View>
             </Card>
@@ -45,13 +54,17 @@ const Profile = () => {
             >
                 <View style = {styles.cardContent}>
                 <MaterialIcons name="phone-iphone" size={30} color="#FB98AD" />
-                <Text style = {styles.mytext}>12345678</Text>
+                <Text style = {styles.mytext}>
+                    {phone}
+                </Text>
                 </View>
             </Card>
             <Card style ={styles.mycard}>
                 <View style = {styles.cardContent}>
                 <MaterialIcons name="attach-money" size={30} color="#FB98AD" />
-                <Text style = {styles.mytext}>80k</Text>
+                <Text style = {styles.mytext}>
+                    {salary}
+                </Text>
                 </View>
             </Card>
             <View style={{flexDirection:"row",justifyContent:"space-around",padding:10}}>
