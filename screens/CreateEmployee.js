@@ -70,11 +70,11 @@ const CreateEmployee = () =>{
         then(data=>{
             setPicture(data.url)
             setModal(false)
+            console.log(data)
         }).catch(err=>{
             Alert.alert("error while uploading")
         })
    }
-//https://res.cloudinary.com/dvqqs4tl5/image/upload/v1606080786/qtgwa9snxxoffqpc4w8j.png
     return(
         <View style= {styles.root}>
             <TextInput
@@ -119,12 +119,22 @@ const CreateEmployee = () =>{
                 mode="outlined"
                 onChangeText={text =>setPosition(text)}
             />
-            <Button icon="upload" mode="contained" onPress={() => setModal(true)} theme={theme} >
+            <Button 
+            icon={picture==""?"upload":"check"}
+            mode="contained" onPress={() => setModal(true)} theme={theme} >
                 Upload Image
             </Button>
             <Button icon="content-save" mode="contained" onPress={() =>console.log("saved")} theme={theme}>
                 Save
             </Button>
+            <View>
+            <Image
+                   
+                    style= {{width:100,height :100,position:"relative",top:15,left: 150
+                        }}
+                    source = {picture==""?{url:"https://i2.wp.com/buttercross.com/wp-content/uploads/2018/01/blank-profile-picture-973460_960_720.png?resize=300%2C300&ssl=1s"}:{uri:picture}}
+                />
+            </View>
             <Modal
                 animationType = "slide"
                 transparent = {true}
