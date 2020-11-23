@@ -5,6 +5,26 @@
 a mobile application that allows a company to store details on an employee information such as name, position, salary, picture, etc.
 includes camera access, images upload (cloudinary.com storage). Using React Native, Nodejs and express.js and mongoDB
 
+**Installation guide: (MacOS)**
+```
+npm install --global expo-cli
+```
+at Terminal
+- go to the server folder(backend)
+```
+nodemon app
+```
+- go to the amployeeapp
+```
+npm install
+npm start
+```
+For ios or android emulator
+```
+    expo start --android
+    expo start --ios
+```
+
 **Pages:**
 
 Employee List
