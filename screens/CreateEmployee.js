@@ -1,18 +1,90 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View ,Image, Modal,Alert} from 'react-native';
-import {Card, FAB, TextInput,Button} from 'react-native-paper'
+import { StyleSheet, Text, View ,Image, Modal,Alert,Keyboard,ScrollView} from 'react-native';
+import {Card, FAB, TextInput,Button} from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 
-const CreateEmployee = () =>{
-    const [name,setName] = useState("")
-    const [phone,setPhone] = useState("")
-    const [email,setEmail] = useState("")
-    const [salary,setSalary] = useState("")
-    const [position,setpPosition] = useState("")
-    const [picture,setPicture] = useState("")
+
+const CreateEmployee = ({navigation,route}) =>{
+    const getDetails =(type) =>{
+        if(route.params)
+        { 
+            switch(type){
+            case "name":
+                return route.params.name
+            case "phone":
+               return route.params.phone
+            case "email":
+              return route.params.email
+            case "salary":
+                return route.params.salary  
+            case "picture":
+                return  route.params.picture
+            case "position":
+              return  route.params.position  
+        }
+     }
+        return ""
+    }
+
+    
+    const [name,setName] = useState(getDetails("name"))
+    const [phone,setPhone] = useState(getDetails("phone"))
+    const [email,setEmail] = useState(getDetails("email"))
+    const [salary,setSalary] = useState(getDetails("salary"))
+    const [position,setPosition] = useState(getDetails("position"))
+    const [picture,setPicture] = useState(getDetails("picture"))
     const [modal,setModal] = useState(false)
 
+    const submitData = ()=>{
+        fetch("http://192.168.0.11:3000/send-data",{
+            method:"post",
+            headers:{
+              'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({
+                name,
+                email,
+                phone,
+                salary,
+                picture,
+                position
+            })
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            Alert.alert(`${data.name}'s profile is successfuly saved`)
+            navigation.navigate("Home")
+        })
+        .catch(err=>{
+          Alert.alert("error")
+      })
+    }
+    const updateData = () =>{
+        fetch("http://192.168.0.11:3000/update",{
+            method:"post",
+            headers:{
+              'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({
+                _id:route.params._id,
+                name,
+                email,
+                phone,
+                salary,
+                picture,
+                position
+            })
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            Alert.alert(`${data.name}'s profile is successfuly updated`)
+            navigation.navigate("Home")
+        })
+        .catch(err=>{
+          Alert.alert("error")
+      })
+    }
     const pickFromGallery = async ()=>{
         const {granted} =  await Permissions.askAsync(Permissions.CAMERA_ROLL)
         if(granted){
@@ -76,7 +148,7 @@ const CreateEmployee = () =>{
         })
    }
     return(
-        <View style= {styles.root}>
+        <View style = {styles.root}>
             <TextInput
                 style = {styles.inputStyle}
                 label = 'Name'
@@ -124,15 +196,23 @@ const CreateEmployee = () =>{
             mode="contained" onPress={() => setModal(true)} theme={theme} >
                 Upload Image
             </Button>
-            <Button icon="content-save" mode="contained" onPress={() =>console.log("saved")} theme={theme}>
+                {   route.params?
+                <Button icon="content-save" mode="contained" onPress={() =>updateData()} theme={theme}>
+                Update
+                </Button>:
+                <Button icon="content-save" mode="contained" onPress={() =>submitData()} theme={theme}>
                 Save
-            </Button>
+                </Button>
+                
+                
+            }
+            
             <View>
             <Image
-                   
-                    style= {{width:100,height :100,position:"relative",top:15,left: 150
-                        }}
-                    source = {picture==""?{url:"https://i2.wp.com/buttercross.com/wp-content/uploads/2018/01/blank-profile-picture-973460_960_720.png?resize=300%2C300&ssl=1s"}:{uri:picture}}
+                
+                style= {{width:100,height :100,position:"relative",top:15,left: 150
+                    }}
+                source = {picture==""?{url:"https://i2.wp.com/buttercross.com/wp-content/uploads/2018/01/blank-profile-picture-973460_960_720.png?resize=300%2C300&ssl=1s"}:{uri:picture}}
                 />
             </View>
             <Modal

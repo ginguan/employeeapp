@@ -10,13 +10,33 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const Profile = (props) => {
 
-    const {id,name,picture,phone,salary,email,position} = props.route.params.item
-    
+    const {_id,name,picture,phone,salary,email,position} = props.route.params.item
+    const deleteEmployee = ()=>{
+        fetch("http://192.168.0.11:3000/delete",{
+            method:"post",
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                _id : _id
+            })
+        })
+        .then(res=>res.json())
+        .then(deletedEmp=>{
+            Alert.alert("Employee is fired")
+            props.navigation.navigate("Home")
+        })
+        .catch(err=>{
+            Alert.alert("error")
+        })
+        
+    }
+
     const openDial=()=>{
         if(Platform.OS === "android"){
-           Linking.openURL(`tel:12345`)
+           Linking.openURL(`tel:${phone}`)
         }else{
-           Linking.openURL(`telprompt:123456`)
+           Linking.openURL(`telprompt:${phone}`)
         }
    }
 
@@ -39,7 +59,7 @@ const Profile = (props) => {
                 </Text>
             </View>
             <Card style={styles.mycard} onPress={()=>{
-             Linking.openURL(`mailto:hey@gmail.com`)
+             Linking.openURL(`mailto:${email}`)
          }}>
                 <View style = {styles.cardContent}>
                 <MaterialIcons name="email" size={30} color="#FB98AD" />
@@ -72,14 +92,18 @@ const Profile = (props) => {
                 icon="account-edit"
                 mode="contained"
                 theme={theme}
-                onPress={() =>  console.log("edit")}>
+                onPress={() =>  {
+                    props.navigation.navigate("Create",
+                    {_id,name,picture,phone,salary,email,position}
+                    )
+                }}>
                     Edit
                 </Button>
                 <Button 
                 icon="delete"
                 mode="contained"
                 theme={theme}
-                onPress={() =>  console.log("Fire?")}>
+                onPress={() =>  deleteEmployee()}>
                     Resigned
                 </Button>
             </View>
