@@ -9,10 +9,10 @@ includes camera access, images upload (cloudinary.com storage). Using React Nati
 
 Employee List
 
-![alt text](img/9591606111138_.pic.jpg?=16x9)
+![alt text](img/9591606111138_1.pic.jpg?=16x9)
 
 Create/Update Employee's info
 
-![alt text](img/9601606111139_.pic.jpg?=16x9)
+![alt text](img/9601606111139_1.pic.jpg?=16x9)
 
 ![alt text](img/9621606111141_.pic.jpg?=16x9)
