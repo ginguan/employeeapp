@@ -1,29 +1,29 @@
-const express = require('express')
-const app = express()
-const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
-require('./Employee')
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+require('./Employee');
 
-app.use(bodyParser.json())
-const Employee = mongoose.model("employee")
+app.use(bodyParser.json());
+const Employee = mongoose.model("employee");
 //password = ztP2aES83LZV5f3N
-const mongoUri = "mongodb+srv://cnq:ztP2aES83LZV5f3N@cluster0.k2eer.mongodb.net/<employeeApp>?retryWrites=true&w=majority"
+const mongoUri = "mongodb+srv://cnq:ztP2aES83LZV5f3N@cluster0.k2eer.mongodb.net/<employeeApp>?retryWrites=true&w=majority";
 //mongodb+srv://cnq:<password>@cluster0.k2eer.mongodb.net/<dbname>?retryWrites=true&w=majority
 
 
 mongoose.connection.on("connected",()=>{
-    console.log("connected to mongo")
+    console.log("connected to mongo");
 })
 mongoose.connection.on("error",(err)=>{
-    console.log("error",err)
+    console.log("error",err);
 })
 
 
 app.get('/',(req,res)=>{
     Employee.find({}).then(data=>{
-        res.send(data)
+        res.send(data);
     }).catch(err=>{
-        console.log(err)
+        console.log(err);
     })
 })
 
@@ -37,13 +37,13 @@ app.post('/send-data',(req,res)=>{
          salary:req.body.salary,
          position:req.body.position
 
-     })
+     });
      employee.save()
      .then(data=>{
-         console.log(data)
-         res.send(data)
+         console.log(data);
+         res.send(data);
      }).catch(err=>{
-         console.log(err)
+         console.log(err);
      })
      
 })
@@ -51,13 +51,13 @@ app.post('/send-data',(req,res)=>{
 app.post('/delete',(req,res)=>{
     Employee.findByIdAndRemove(req.body._id)
     .then(data=>{
-        console.log(data)
-        res.send(data)
+        console.log(data);
+        res.send(data);
     })
     .catch(err=>{
-        console.log(err)
+        console.log(err);
     })
-})
+});
 
 
 app.post('/update',(req,res)=>{
@@ -69,23 +69,23 @@ app.post('/update',(req,res)=>{
         salary:req.body.salary,
         position:req.body.position
     }).then(data=>{
-        console.log(data)
-        res.send(data)
+        console.log(data);
+        res.send(data);
     })
     .catch(err=>{
-        console.log(err)
+        console.log(err);
     })
-})
+});
 
 
 app.listen(3000,()=>{
-    console.log("server running")
-})
+    console.log("server running");
+});
 
 mongoose.connect(mongoUri,{
     useNewUrlParser:true,
     useUnifiedTopology:true
-})
+});
 
 // app.get('/',(req,res)=>{
 //     Employee.find({}).then(data=>{

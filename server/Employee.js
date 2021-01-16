@@ -1,5 +1,5 @@
 
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const EmpoyeeSchema = new mongoose.Schema({
     name:String,
@@ -8,7 +8,7 @@ const EmpoyeeSchema = new mongoose.Schema({
     picture:String,
     salary:String,
     position:String
-})
+});
 
 
-mongoose.model("employee",EmpoyeeSchema)
+mongoose.model("employee",EmpoyeeSchema);

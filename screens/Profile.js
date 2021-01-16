@@ -3,14 +3,14 @@ import { StyleSheet, Text, View ,Image, Modal,Linking,Platform,Alert} from 'reac
 import {Card, FAB, TextInput,Button, Title} from 'react-native-paper'
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createStackNavigator } from '@react-navigation/stack';
 
 
 
 const Profile = (props) => {
 
-    const {_id,name,picture,phone,salary,email,position} = props.route.params.item
+    const {_id,name,picture,phone,salary,email,position} = props.route.params.item;
     const deleteEmployee = ()=>{
         fetch("http://192.168.0.11:3000/delete",{
             method:"post",
@@ -30,15 +30,15 @@ const Profile = (props) => {
             Alert.alert("error")
         })
         
-    }
+    };
 
     const openDial=()=>{
         if(Platform.OS === "android"){
-           Linking.openURL(`tel:${phone}`)
+           Linking.openURL(`tel:${phone}`);
         }else{
-           Linking.openURL(`telprompt:${phone}`)
+           Linking.openURL(`telprompt:${phone}`);
         }
-   }
+   };
 
     return (
         <View style  = {styles.root}>
@@ -59,7 +59,7 @@ const Profile = (props) => {
                 </Text>
             </View>
             <Card style={styles.mycard} onPress={()=>{
-             Linking.openURL(`mailto:${email}`)
+             Linking.openURL(`mailto:${email}`);
          }}>
                 <View style = {styles.cardContent}>
                 <MaterialIcons name="email" size={30} color="#FB98AD" />
@@ -95,7 +95,7 @@ const Profile = (props) => {
                 onPress={() =>  {
                     props.navigation.navigate("Create",
                     {_id,name,picture,phone,salary,email,position}
-                    )
+                    );
                 }}>
                     Edit
                 </Button>
@@ -138,4 +138,4 @@ const theme = {
     }
 }
 
-export default Profile
+export default Profile;

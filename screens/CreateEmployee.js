@@ -11,30 +11,30 @@ const CreateEmployee = ({navigation,route}) =>{
         { 
             switch(type){
             case "name":
-                return route.params.name
+                return route.params.name;
             case "phone":
-               return route.params.phone
+               return route.params.phone;
             case "email":
-              return route.params.email
+              return route.params.email;
             case "salary":
-                return route.params.salary  
+                return route.params.salary;
             case "picture":
-                return  route.params.picture
+                return  route.params.picture;
             case "position":
-              return  route.params.position  
-        }
+              return  route.params.position;
+        };
      }
-        return ""
-    }
+        return "";
+    };
 
     
-    const [name,setName] = useState(getDetails("name"))
-    const [phone,setPhone] = useState(getDetails("phone"))
-    const [email,setEmail] = useState(getDetails("email"))
-    const [salary,setSalary] = useState(getDetails("salary"))
-    const [position,setPosition] = useState(getDetails("position"))
-    const [picture,setPicture] = useState(getDetails("picture"))
-    const [modal,setModal] = useState(false)
+    const [name,setName] = useState(getDetails("name"));
+    const [phone,setPhone] = useState(getDetails("phone"));
+    const [email,setEmail] = useState(getDetails("email"));
+    const [salary,setSalary] = useState(getDetails("salary"));
+    const [position,setPosition] = useState(getDetails("position"));
+    const [picture,setPicture] = useState(getDetails("picture"));
+    const [modal,setModal] = useState(false);
 
     const submitData = ()=>{
         fetch("http://192.168.0.11:3000/send-data",{
@@ -53,11 +53,11 @@ const CreateEmployee = ({navigation,route}) =>{
         })
         .then(res=>res.json())
         .then(data=>{
-            Alert.alert(`${data.name}'s profile is successfuly saved`)
-            navigation.navigate("Home")
+            Alert.alert(`${data.name}'s profile is successfuly saved`);
+            navigation.navigate("Home");
         })
         .catch(err=>{
-          Alert.alert("error")
+          Alert.alert("error");
       })
     }
     const updateData = () =>{
@@ -78,11 +78,11 @@ const CreateEmployee = ({navigation,route}) =>{
         })
         .then(res=>res.json())
         .then(data=>{
-            Alert.alert(`${data.name}'s profile is successfuly updated`)
-            navigation.navigate("Home")
+            Alert.alert(`${data.name}'s profile is successfuly updated`);
+            navigation.navigate("Home");
         })
         .catch(err=>{
-          Alert.alert("error")
+          Alert.alert("error");
       })
     }
     const pickFromGallery = async ()=>{
@@ -93,17 +93,17 @@ const CreateEmployee = ({navigation,route}) =>{
                   allowsEditing:true,
                   aspect:[1,1],
                   quality:0.5
-              })
+              });
               if(!data.cancelled){
                   let newfile = { 
                     uri:data.uri,
                     type:`test/${data.uri.split(".")[1]}`,
                     name:`test.${data.uri.split(".")[1]}` 
-                }
-                  handleUpload(newfile)
+                };
+                  handleUpload(newfile);
               }
         }else{
-           Alert.alert("Permission is needed to upload ur photos")
+           Alert.alert("Permission is needed to upload ur photos");
         }
      }
      const pickFromCamera = async ()=>{
@@ -114,37 +114,37 @@ const CreateEmployee = ({navigation,route}) =>{
                   allowsEditing:true,
                   aspect:[1,1],
                   quality:0.5
-              })
+              });
             if(!data.cancelled){
                 let newfile = { 
                   uri:data.uri,
                   type:`test/${data.uri.split(".")[1]}`,
                   name:`test.${data.uri.split(".")[1]}` 
   
-              }
-                handleUpload(newfile)
+              };
+                handleUpload(newfile);
             }
-            console.log(data)
+            console.log(data);
         }else{
-           Alert.alert("Permission is needed to upload ur photos")
+           Alert.alert("Permission is needed to upload ur photos");
         }
      }
      const handleUpload = (image)=>{
-        const data = new FormData()
-        data.append('file',image)
-        data.append('upload_preset','employeeApp')
-        data.append("cloud_name","dvqqs4tl5")
+        const data = new FormData();
+        data.append('file',image);
+        data.append('upload_preset','employeeApp');
+        data.append("cloud_name","dvqqs4tl5");
         //https://cloudinary.com/ image cloud
         fetch("https://api.cloudinary.com/v1_1/dvqqs4tl5/image/upload",{
             method:"post",
             body:data
         }).then(res=>res.json()).
         then(data=>{
-            setPicture(data.url)
-            setModal(false)
-            console.log(data)
+            setPicture(data.url);
+            setModal(false);
+            console.log(data);
         }).catch(err=>{
-            Alert.alert("error while uploading")
+            Alert.alert("error while uploading");
         })
    }
     return(
@@ -202,10 +202,7 @@ const CreateEmployee = ({navigation,route}) =>{
                 </Button>:
                 <Button icon="content-save" mode="contained" onPress={() =>submitData()} theme={theme}>
                 Save
-                </Button>
-                
-                
-            }
+                </Button>}
             
             <View>
             <Image
@@ -220,7 +217,7 @@ const CreateEmployee = ({navigation,route}) =>{
                 transparent = {true}
                 visible = {modal}
                 onRequestClose = {()=>{
-                    setModal(false)
+                    setModal(false);
                 }}
                 
             >
@@ -238,8 +235,6 @@ const CreateEmployee = ({navigation,route}) =>{
                     </Button>  
             </View>
             </Modal>
-            
-           
         </View>
     )
 }
@@ -270,5 +265,4 @@ const styles=StyleSheet.create({
         padding:10
     }
 })
-
-export default  CreateEmployee
+export default  CreateEmployee;

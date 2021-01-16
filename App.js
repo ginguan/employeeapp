@@ -1,13 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
+// import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View,Image } from 'react-native';
-import Constants from 'expo-constants'
+import Constants from 'expo-constants';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Home from './screens/Home'
-import CreateEmployee from './screens/CreateEmployee'
-import Profile from './screens/Profile'
+import Home from './screens/Home';
+import CreateEmployee from './screens/CreateEmployee';
+import Profile from './screens/Profile';
 
 const Stack = createStackNavigator();
 
@@ -17,7 +17,7 @@ const myOptions = {
   headerStyle:{
     backgroundColor:"#FB98AD"
   }
-}
+};
 
 function App() {
   return (
@@ -54,7 +54,7 @@ export default ()=>{
       <App />
     </NavigationContainer>
     // </Provider>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
